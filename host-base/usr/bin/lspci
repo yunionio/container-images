@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+dir="$(dirname "$0")"
+export RUNAS_ARG0="$0"
+export LD_PRELOAD="$dir//bundles/lspci/lib/runas.so"
+exec "$dir//bundles/lspci/lib/ld-linux-x86-64.so.2" --library-path "$dir//bundles/lspci/lib/" "$dir/.lspci.bin" "$@"

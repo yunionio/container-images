@@ -1,0 +1,5 @@
+#! /usr/bin/env sh
+dir="$(dirname "$0")"
+export RUNAS_ARG0="$0"
+export LD_PRELOAD="$dir//bundles/dmidecode/lib/runas.so"
+exec "$dir//bundles/dmidecode/lib/ld-linux-x86-64.so.2" --library-path "$dir//bundles/dmidecode/lib/" "$dir/.dmidecode.bin" "$@"
