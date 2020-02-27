@@ -1,6 +1,0 @@
-FROM registry.cn-beijing.aliyuncs.com/yunionio/onecloud-base:latest
-
-RUN rm -f /bin/cp
-ADD opt/yunion/bin /opt/yunion/bin
-ADD opt/yunion/fetchclient/bin /opt/yunion/fetchclient/bin
-ADD usr/bin /usr/bin

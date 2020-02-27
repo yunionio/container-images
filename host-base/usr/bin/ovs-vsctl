@@ -1,5 +1,0 @@
-#! /usr/bin/env sh
-dir="$(dirname "$0")"
-export RUNAS_ARG0="$0"
-export LD_PRELOAD="$dir//bundles/ovs-vsctl/lib/runas.so"
-exec "$dir//bundles/ovs-vsctl/lib/ld-linux-x86-64.so.2" --library-path "$dir//bundles/ovs-vsctl/lib/" "$dir/.ovs-vsctl.bin" "$@"
