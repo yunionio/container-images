@@ -1,5 +1,5 @@
 VER:=2.9.6
-REL:=1
+REL:=2
 tag:=$(VER)-$(REL)
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/openvswitch

@@ -15,6 +15,8 @@ log() {
 }
 
 north() {
+	local cnt
+
 	ovnctl start_northd \
 		--db-nb-create-insecure-remote \
 		--db-sb-create-insecure-remote \
@@ -40,7 +42,45 @@ north() {
 	done
 }
 
+controller_get_ovn_remote() {
+	local remote
+	local q='"'
+
+	remote="$(ovs-vsctl --bare get Open_vSwitch . external_ids:ovn-remote)"
+	remote="${remote#$q}"
+	remote="${remote%$q}"
+	echo "$remote"
+}
+
+controller_test_ovn_remote() {
+	local remote="$1"
+
+	if [ -z "$remote" ]; then
+		ovn-sbctl --timeout=3 find Chassis >/dev/null
+	else
+		ovn-sbctl --db="$remote" --timeout=3 find Chassis >/dev/null
+	fi
+}
+
 controller() {
+	local cnt
+	local remote0 remote
+	local stime etime elapsed
+
+	# wait working ovn remote
+	while true; do
+		remote0="$(controller_get_ovn_remote)"
+		stime="$(date +%s)"
+		if controller_test_ovn_remote "$remote0"; then
+			break
+		fi
+		etime="$(date +%s)"
+		elapsed="$((etime - stime))"
+		if [ "$elapsed" -lt 3 ]; then
+			sleep "$((3 - elapsed))"
+		fi
+	done
+
 	ovnctl start_controller
 
 	log ovn-controller &
@@ -51,6 +91,15 @@ controller() {
 		cnt="$(ovnctl status_controller | tee | grep 'is running' | wc -l)"
 		if [ "$cnt" -lt 1 ]; then
 			ovnctl status_controller
+			return 1
+		fi
+
+		remote="$(controller_get_ovn_remote)"
+		if [ "$remote" != "$remote0" ]; then
+			echo "ovn-controller: ovn-remote changed from $remote0 to $remote" >&2
+			return 1
+		fi
+		if ! controller_test_ovn_remote "$remote"; then
 			return 1
 		fi
 	done
