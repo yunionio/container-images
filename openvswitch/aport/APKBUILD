@@ -1,7 +1,7 @@
 # Contributor: Stuart Cardall <developer@it-offshore.co.uk>
 # Maintainer: Yousong Zhou <zhouyousong@yunion.cn>
 pkgname=openvswitch
-pkgver=2.9.6
+pkgver=2.10.4
 pkgrel=1
 pkgdesc="A production quality, multilayer virtual switch"
 url="http://openvswitch.org/"
@@ -138,7 +138,7 @@ _ovn() {
 		usr/bin/ovn-docker-overlay-driver
 }
 
-sha512sums="6af7c9daac3605bbe9676bb0abfb989bd540ca41fb4ecdd428b88c6a4a3f11ce801ffeacdbaf834b24917d2693a59534c4b9b52954793a9f1eec41bfb5d17530  openvswitch-2.9.6.tar.gz
+sha512sums="dfa3624833a263e8e8677093b8b90a906780617b388bdb8ace225954851754462e5488cbfce387bf7e917ccf134a58905ed5a073fdd8b324b1a20d3215df1648  openvswitch-2.10.4.tar.gz
 097d4721a78fff749c534910d98543778474406bd61b469b88a0d981a2a380556444437ec44278cead6d8688c45a38b2acbf1551acb9ab38d048f413728e3b88  ovsdb-server.initd
 b1588d076bbfc7ef2dd46fce8e46186f40cbbc4667697f7ac13ddc68e34568fdab315fde47838de7f6d32916853190336cfe3735f672ad7cb624ae14dbff55a5  ovsdb-server.confd
 4bff37f8bed32d5327b4b0433984ab8ffdce77f618034aa6ffd1ad4a7caa00703ea2bef312876dce5aafa4c17fe06dddd75e5c05c10e13bf8f5c3805a0654a96  ovs-vswitchd.initd
