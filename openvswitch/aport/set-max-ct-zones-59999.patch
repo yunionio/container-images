@@ -1,0 +1,13 @@
+diff --git a/ovn/controller/ovn-controller.h b/ovn/controller/ovn-controller.h
+index 6617b0c16..69850bdcb 100644
+--- a/ovn/controller/ovn-controller.h
++++ b/ovn/controller/ovn-controller.h
+@@ -21,7 +21,7 @@
+ #include "ovn/lib/ovn-sb-idl.h"
+ 
+ /* Linux supports a maximum of 64K zones, which seems like a fine default. */
+-#define MAX_CT_ZONES 65535
++#define MAX_CT_ZONES 59999
+ 
+ struct controller_ctx {
+     struct ovsdb_idl *ovnsb_idl;
