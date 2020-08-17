@@ -30,8 +30,7 @@ RUN set -x \
 	&& apk add ntfs-3g@yunion ntfs-3g-progs@yunion \
 	&& cd $NTFS_APORT \
 	&& sudo -u yunion abuild -P $NTFS_APORT_PKGS clean cleancache cleanpkg \
-	&& apk del alpine-sdk \
-	&& find /var/cache/ -type f | xargs rm -vf
+	&& apk del alpine-sdk
 
 RUN apk add \
 	blkid \
@@ -54,3 +53,5 @@ RUN apk add \
 
 # zerofree only exist at testing repository
 RUN apk add zerofree --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+RUN find /var/cache/ -type f | xargs rm -vf
