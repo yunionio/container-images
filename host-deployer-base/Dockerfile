@@ -54,4 +54,7 @@ RUN apk add \
 # zerofree only exist at testing repository
 RUN apk add zerofree --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
+# for compatibility reason we copy a /usr/bin/chntpw to /usr/bin/chntpw.static
+RUN cp /usr/bin/chntpw /usr/bin/chntpw.static
+
 RUN find /var/cache/ -type f | xargs rm -vf
