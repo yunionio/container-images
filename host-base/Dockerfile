@@ -17,4 +17,3 @@ RUN apk add \
 	util-linux
 
 ADD files/opt/yunion/bin /opt/yunion/bin
-ADD files/opt/yunion/fetchclient/bin /opt/yunion/fetchclient/bin
