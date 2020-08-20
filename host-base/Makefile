@@ -1,4 +1,4 @@
-tag:=v0.2.0
+tag:=v0.3.0
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/host-base
 

@@ -16,6 +16,4 @@ RUN apk add \
 	pciutils \
 	util-linux
 
-ADD files/opt/yunion/bin /opt/yunion/bin
-
 RUN find /var/cache/ -type f | xargs rm -vf
