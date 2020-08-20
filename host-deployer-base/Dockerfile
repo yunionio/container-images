@@ -1,4 +1,4 @@
-FROM registry.cn-beijing.aliyuncs.com/d3lx/onecloud-base:v0.2
+FROM registry.cn-beijing.aliyuncs.com/yunionio/onecloud-base:v0.2
 
 MAINTAINER Yaoqi Wan <wanyaoqi@yunion.cn>
 
