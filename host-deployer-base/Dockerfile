@@ -57,4 +57,7 @@ RUN apk add zerofree --repository=http://dl-cdn.alpinelinux.org/alpine/edge/test
 # for compatibility reason we copy a /usr/bin/chntpw to /usr/bin/chntpw.static
 RUN cp /usr/bin/chntpw /usr/bin/chntpw.static
 
+ADD opt/vmware-vddk/bin /opt/vmware-vddk/bin
+ADD usr/lib/vmware /usr/lib/vmware
+
 RUN find /var/cache/ -type f | xargs rm -vf
