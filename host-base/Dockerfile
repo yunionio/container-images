@@ -1,4 +1,4 @@
-FROM registry.cn-beijing.aliyuncs.com/yunionio/openvswitch:2.10.4-0
+FROM registry.cn-beijing.aliyuncs.com/yunionio/openvswitch:2.10.4-1
 
 MAINTAINER Yaoqi Wan <wanyaoqi@yunion.cn>
 
@@ -16,5 +16,4 @@ RUN apk add \
 	pciutils \
 	util-linux
 
-ADD files/opt/yunion/bin /opt/yunion/bin
-ADD files/opt/yunion/fetchclient/bin /opt/yunion/fetchclient/bin
+RUN find /var/cache/ -type f | xargs rm -vf
