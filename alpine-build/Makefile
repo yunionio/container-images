@@ -1,5 +1,5 @@
 VER:=1.0
-REL:=2
+REL:=5
 tag:=$(VER)-$(REL)
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/alpine-build
@@ -12,7 +12,8 @@ docker-hub-img:=$(docker-hub-repo):$(tag)
 all: build
 
 build:
-	docker build -t $(img) --squash .
+	docker buildx build --platform linux/arm64,linux/amd64 -t $(img) . --push
+	docker pull $(img)
 
 push:
 	docker push $(img)
