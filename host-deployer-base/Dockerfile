@@ -48,15 +48,14 @@ RUN apk add \
 	e2fsprogs \
 	e2fsprogs-extra \
 	dosfstools \
-	parted \
-	chntpw
+	parted
 
 # zerofree only exist at testing repository
 RUN apk add zerofree --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
-# for compatibility reason we copy a /usr/bin/chntpw to /usr/bin/chntpw.static
-RUN cp /usr/bin/chntpw /usr/bin/chntpw.static
-
+ADD usr/bin/chntpw.static /usr/bin/chntpw.static
+ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin
+ADD usr/bin/bundles/chntpw.static /usr/bin/bundles/chntpw.static
 ADD opt/vmware-vddk/bin /opt/vmware-vddk/bin
 ADD usr/lib/vmware /usr/lib/vmware
 
