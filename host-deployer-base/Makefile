@@ -2,13 +2,13 @@ TAG?=0.6
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 img:=$(REGISTRY)/host-deployer-base:$(TAG)
+platform?=linux/amd64,linux/arm64
 
 all: build
 
 build:
-	docker buildx build --platform linux/arm64,linux/amd64 -t $(img) . --push
-	docker pull $(img)
+	docker buildx build --platform $(platform) -t $(img) .
 
 push:
-	docker push $(img)
+	docker buildx build --platform $(platform) -t $(img) . --push
 
