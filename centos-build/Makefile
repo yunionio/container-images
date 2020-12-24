@@ -1,5 +1,5 @@
 VER:=1.1
-REL:=3
+REL:=4
 tag:=$(VER)-$(REL)
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/centos-build
@@ -15,8 +15,10 @@ all: build
 build:
 	docker buildx build --platform $(platform) -t $(img) .
 
+# NOTE push to docker hub for faster CircleCI image pull
 push:
 	docker buildx build --platform $(platform) -t $(img) . --push
+	docker buildx build --platform $(platform) -t yunionio/centos-build:$(tag) . --push
 
 # This is for clients with faster access to docker hub registry than aliyun's.
 # Previously this was known as yunionio/onecloud-ci
