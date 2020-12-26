@@ -27,6 +27,8 @@ ENV PATH="/opt/go/bin:${PATH}"
 ENV GOPATH="/root/go"
 ENV PATH="${GOPATH}/bin:${PATH}"
 
+ENV GOPROXY=https://mirrors.aliyun.com/goproxy/,https://proxy.golang.org,direct
+
 RUN set -x \
 	&& mkdir -p "$GOPATH" \
 	&& d="$GOPATH/src/golang.org/x/tools" \
@@ -34,3 +36,11 @@ RUN set -x \
 	&& git clone --branch yun --depth 4 https://github.com/yousong/tools "$d" \
 	&& cd "$d" \
 	&& go install ./cmd/goimports
+
+RUN set -x \
+	&& mkdir -p "$GOPATH" \
+	&& d="$GOPATH/src/yunion.io/x/y18n" \
+	&& mkdir -p "$d" \
+	&& git clone              --depth 4 https://github.com/yousong/y18n "$d" \
+	&& cd "$d" \
+	&& go install .
