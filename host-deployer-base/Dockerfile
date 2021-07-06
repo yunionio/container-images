@@ -1,7 +1,11 @@
-FROM fedora:33
+FROM centos:8
 
-RUN dnf install -y libguestfs-tools libvirt qemu-block-rbd && \
-         rpm -e linux-firmware linux-firmware-whence geolite2-city geolite2-country && \
+RUN dnf install centos-release-stream -y && \
+         dnf install -y libguestfs-tools libvirt qemu-kvm-block-rbd && \
+         dnf install -y epel-release && \
+         dnf install -y ntfsprogs && \
+         rpm -e linux-firmware && \
+         dnf clean all && \
          rm -rf /var/cache/dnf
 
 RUN echo 'user = "root"' > /etc/libvirt/qemu.conf && echo 'group = "root"' >> /etc/libvirt/qemu.conf
