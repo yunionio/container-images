@@ -17,9 +17,9 @@ RUN set -x \
 
 WORKDIR /opt
 RUN set -x \
-	&& wget https://dl.google.com/go/go1.14.13.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz \
-	&& tar xzf go1.14.13.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz \
-	&& rm -vf  go1.14.13.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz
+	&& wget https://dl.google.com/go/go1.15.15.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz \
+	&& tar xzf go1.15.15.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz \
+	&& rm -vf  go1.15.15.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz
 
 ENV GOROOT="/opt/go"
 ENV PATH="/opt/go/bin:${PATH}"

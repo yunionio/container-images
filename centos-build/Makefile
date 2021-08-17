@@ -1,5 +1,5 @@
 VER:=1.1
-REL:=4
+REL:=5
 tag:=$(VER)-$(REL)
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/centos-build
