@@ -1,4 +1,4 @@
-TAG?=0.6
+TAG?=1.0
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 img:=$(REGISTRY)/host-deployer-base:$(TAG)
