@@ -15,4 +15,4 @@ ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin
 ADD usr/bin/bundles/chntpw.static /usr/bin/bundles/chntpw.static
 ADD opt/vmware-vddk/bin /opt/vmware-vddk/bin
 ADD usr/lib/vmware /usr/lib/vmware
-
+ADD etc/lvm/lvm.conf /etc/lvm/lvm.conf
