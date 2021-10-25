@@ -4,6 +4,8 @@ RUN dnf install centos-release-stream -y && \
          dnf install -y libguestfs-tools libvirt qemu-kvm-block-rbd && \
          dnf install -y epel-release && \
          dnf install -y ntfsprogs && \
+         dnf install -y ntfs-3g && \
+         dnf install -y lvm2 && \
          rpm -e linux-firmware && \
          dnf clean all && \
          rm -rf /var/cache/dnf
