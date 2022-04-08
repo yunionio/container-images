@@ -15,6 +15,10 @@ build:
 	docker buildx build --platform linux/arm64,linux/amd64 -t $(img) . --push
 	docker pull $(img)
 
+build-3-15-4:
+	docker buildx build -f ./Dockerfile.3-15-4 --platform linux/arm64,linux/amd64 -t $(REPO):3.15.4-0 . --push
+	docker pull $(REPO):3.15.4-0
+
 push:
 	docker push $(img)
 
