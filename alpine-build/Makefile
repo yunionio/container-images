@@ -1,5 +1,5 @@
 VER:=1.1
-REL:=5
+REL:=6
 tag:=$(VER)-$(REL)
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/alpine-build

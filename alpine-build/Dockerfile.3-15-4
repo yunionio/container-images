@@ -4,10 +4,7 @@ MAINTAINER Zexi Li <zexi.li@icloud.com>
 
 RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
 
-RUN apk add alpine-sdk
-RUN apk add go
-RUN apk add ceph-dev
-RUN apk add linux-headers
+RUN apk add alpine-sdk go ceph-dev linux-headers
 
 ENV GOPATH="/root/go"
 ENV PATH="${GOPATH}/bin:${PATH}"
