@@ -20,6 +20,12 @@ push:
 	docker buildx build --platform $(platform) -t $(img) . --push
 	docker buildx build --platform $(platform) -t yunionio/centos-build:$(tag) . --push
 
+VERSION_GO_1183=go-1.18.3-0
+build-go-1.18.3:
+	docker buildx build --platform $(platform) -t $(REPO):$(VERSION_GO_1183) -f ./Dockerfile.go-1.18.3 . --push
+	#docker buildx build --platform $(platform) -t yunionio/centos-build:$(tag) . --push
+	docker buildx build --platform $(platform) -t yunion/centos-build:$(VERSION_GO_1183) -f ./Dockerfile.go-1.18.3 . --push
+
 # This is for clients with faster access to docker hub registry than aliyun's.
 # Previously this was known as yunionio/onecloud-ci
 push-docker-hub:
