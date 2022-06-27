@@ -1,0 +1,47 @@
+FROM centos:7
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+MAINTAINER Zexi Li <zexi.li@icloud.com>
+
+RUN set -x \
+	&& yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+	&& yum install -y git wget \
+	&& yum groupinstall -y "Development Tools" \
+	&& : ceph for cmd/host \
+	&& rpm --import 'https://download.ceph.com/keys/release.asc' \
+	&& yum install -y https://download.ceph.com/rpm-luminous/el7/noarch/ceph-release-1-1.el7.noarch.rpm \
+	&& yum install -y libcephfs-devel librbd-devel librados-devel \
+	&& yum clean all
+
+WORKDIR /opt
+RUN set -x \
+	&& wget https://dl.google.com/go/go1.18.3.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz \
+	&& tar xzf go1.18.3.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz \
+	&& rm -vf  go1.18.3.linux-`echo $TARGETPLATFORM | cut -d / -f 2`.tar.gz
+
+ENV GOROOT="/opt/go"
+ENV PATH="/opt/go/bin:${PATH}"
+
+ENV GOPATH="/root/go"
+ENV PATH="${GOPATH}/bin:${PATH}"
+
+ENV GOPROXY=https://mirrors.aliyun.com/goproxy/,https://proxy.golang.org,direct
+
+RUN set -x \
+	&& mkdir -p "$GOPATH" \
+	&& d="$GOPATH/src/golang.org/x/tools" \
+	&& mkdir -p "$d" \
+	&& git clone --branch yun --depth 4 https://github.com/yousong/tools "$d" \
+	&& cd "$d" \
+	&& go install ./cmd/goimports
+
+RUN set -x \
+	&& mkdir -p "$GOPATH" \
+	&& d="$GOPATH/src/yunion.io/x/y18n" \
+	&& mkdir -p "$d" \
+	&& git clone              --depth 4 https://github.com/yousong/y18n "$d" \
+	&& cd "$d" \
+	&& go install .
+
