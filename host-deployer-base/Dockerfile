@@ -26,6 +26,7 @@ RUN dnf install centos-release-stream -y && \
          dnf install -y ntfsprogs && \
          dnf install -y ntfs-3g && \
          dnf install -y lvm2 && \
+         dnf install -y efibootmgr && \
          rpm -e linux-firmware && \
          dnf clean all && \
          rm -rf /var/cache/dnf
