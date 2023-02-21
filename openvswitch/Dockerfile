@@ -1,8 +1,9 @@
-FROM alpine:3.11.5
+FROM alpine:3.15.4
 
 MAINTAINER Yousong Zhou <zhouyousong@yunion.cn>
 
 RUN apk add alpine-sdk
+RUN apk add sudo
 
 RUN set -x \
 	&& adduser -D yunion \
