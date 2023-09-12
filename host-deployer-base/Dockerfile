@@ -21,17 +21,17 @@ RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 
 RUN dnf install centos-release-stream -y && \
-         dnf install -y libguestfs-tools libvirt qemu-kvm-block-rbd && \
+         dnf install -y qemu-kvm-block-rbd && \
          dnf install -y epel-release && \
          dnf install -y ntfsprogs && \
          dnf install -y ntfs-3g && \
          dnf install -y lvm2 && \
-         dnf install -y efibootmgr && \
-         rpm -e linux-firmware && \
+         dnf install -y zerofree && \
          dnf clean all && \
          rm -rf /var/cache/dnf
 
-RUN echo 'user = "root"' > /etc/libvirt/qemu.conf && echo 'group = "root"' >> /etc/libvirt/qemu.conf
+# 20230912 libguestfs disabled: libguestfs-tools libvirt
+# RUN echo 'user = "root"' > /etc/libvirt/qemu.conf && echo 'group = "root"' >> /etc/libvirt/qemu.conf
 
 ADD usr/bin/chntpw.static /usr/bin/chntpw.static
 ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin
