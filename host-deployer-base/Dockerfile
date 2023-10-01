@@ -14,24 +14,32 @@ ADD ./supervise/daemontools-0.76.tar.gz /
 RUN yum install -y glibc-static
 RUN cd /admin/daemontools-0.76/ && sed -i '1{s/$/ -include errno.h/}' src/conf-cc && sed -i '1{s/$/ -static/}' src/conf-ld && ./package/compile
 
-FROM centos:8
+#FROM centos:8
 
-RUN cd /etc/yum.repos.d/
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+#RUN cd /etc/yum.repos.d/
+#RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+#RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 
-RUN dnf install centos-release-stream -y && \
-         dnf install -y qemu-kvm-block-rbd && \
-         dnf install -y epel-release && \
-         dnf install -y ntfsprogs && \
-         dnf install -y ntfs-3g && \
-         dnf install -y lvm2 && \
-         dnf install -y zerofree && \
-         dnf clean all && \
-         rm -rf /var/cache/dnf
+#RUN dnf install centos-release-stream -y && \
+#         dnf install -y qemu-kvm-block-rbd && \
+#         dnf install -y epel-release && \
+#         dnf install -y ntfsprogs && \
+#         dnf install -y ntfs-3g && \
+#         dnf install -y lvm2 && \
+#         dnf install -y zerofree && \
+#         dnf install -y lsof && \
+#         dnf install -y btrfs-progs && \
+#         dnf clean all && \
+#         rm -rf /var/cache/dnf
 
 # 20230912 libguestfs disabled: libguestfs-tools libvirt
 # RUN echo 'user = "root"' > /etc/libvirt/qemu.conf && echo 'group = "root"' >> /etc/libvirt/qemu.conf
+
+FROM debian:11-slim
+
+RUN apt-get update \
+    && apt-get install -y ntfs-3g lvm2 zerofree lsof btrfs-progs xfsprogs e2fsprogs dosfstools parted fdisk gdisk \
+    && apt-get clean && rm -fr /var/cache/apt
 
 ADD usr/bin/chntpw.static /usr/bin/chntpw.static
 ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin
