@@ -28,6 +28,7 @@ RUN dnf install centos-release-stream -y && \
          dnf install -y ntfs-3g && \
          dnf install -y lvm2 && \
          dnf install -y zerofree && \
+         rpm -e linux-firmware && \
          dnf clean all && \
          rm -rf /var/cache/dnf
 
