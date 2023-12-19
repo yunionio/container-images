@@ -1,0 +1,36 @@
+ARG IPSET_VER=7.11-6
+
+FROM quay.io/centos/centos:stream8 as centos
+
+ARG IPSET_VER
+ARG STREAM9_MIRROR_BASE_URL=https://iad.mirror.rackspace.com/centos-stream/9-stream
+ARG IPSET_SOURCERPM_URL=${STREAM9_MIRROR_BASE_URL}/BaseOS/source/tree/Packages/ipset-${IPSET_VER}.el9.src.rpm
+
+# Install build dependencies and security updates.
+RUN dnf install -y 'dnf-command(config-manager)' && \
+    # Enable PowerTools repo for '-devel' packages
+    dnf config-manager --set-enabled powertools && \
+    # Install required packages for building rpms. yum-utils is not required but it gives us yum-builddep to easily install build deps.
+    yum install --allowerasing -y rpm-build yum-utils make && \
+    # Need these to build runit.
+    yum install --allowerasing  -y wget glibc-static gcc && \
+    # Ensure all security updates are installed.
+    yum -y update-minimal --security 
+
+# Install source RPM for ipset and install its build dependencies.
+RUN rpm -i ${IPSET_SOURCERPM_URL} && \
+    yum-builddep -y --spec /root/rpmbuild/SPECS/ipset.spec && \
+    rpmbuild -bb /root/rpmbuild/SPECS/ipset.spec
+
+FROM registry.cn-beijing.aliyuncs.com/yunionio/calico-node:v3.12.1
+ARG IPSET_VER
+ARG ARCH=x86_64
+
+# Copy in our rpms
+COPY --from=centos  /root/rpmbuild/RPMS/${ARCH}/* /tmp/rpms/
+
+# remove old ipset package
+RUN rpm -e  --allmatches --nodeps --noscripts --notriggers ipset-libs ipset && \
+    # Install ipset version
+    rpm --force -i /tmp/rpms/ipset-libs-${IPSET_VER}.el8.x86_64.rpm && \
+    rpm -i /tmp/rpms/ipset-${IPSET_VER}.el8.x86_64.rpm
