@@ -14,7 +14,7 @@ ADD ./supervise/daemontools-0.76.tar.gz /
 RUN yum install -y glibc-static
 RUN cd /admin/daemontools-0.76/ && sed -i '1{s/$/ -include errno.h/}' src/conf-cc && sed -i '1{s/$/ -static/}' src/conf-ld && ./package/compile
 
-FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v0.1.9-20231129.0 as yunionos
+FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v3.10.8-20231215.0-vm as yunionos
 FROM centos:8
 
 RUN cd /etc/yum.repos.d/
@@ -24,7 +24,7 @@ ADD etc/yum.repos.d/ceph.repo /etc/yum.repos.d/ceph.repo
 
 RUN dnf install centos-release-stream -y && \
          dnf install -y epel-release && \
-         dnf install -y qemu-kvm qemu-kvm-block-rbd librbd1 genisoimage && \
+         dnf install -y qemu-kvm qemu-kvm-block-rbd librbd1 genisoimage cloud-utils-growpart && \
          dnf install -y ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gdisk && \
          dnf clean all && \
          rm -rf /var/cache/dnf
