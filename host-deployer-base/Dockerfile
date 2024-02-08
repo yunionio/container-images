@@ -14,7 +14,7 @@ ADD ./supervise/daemontools-0.76.tar.gz /
 RUN yum install -y glibc-static
 RUN cd /admin/daemontools-0.76/ && sed -i '1{s/$/ -include errno.h/}' src/conf-cc && sed -i '1{s/$/ -static/}' src/conf-ld && ./package/compile
 
-FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v3.10.8-20231215.0-vm as yunionos
+FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v3.10.12-20240208.0-vm as yunionos
 FROM centos:8
 
 RUN cd /etc/yum.repos.d/
