@@ -1,0 +1,13 @@
+FROM ubuntu:22.04 as qga-build
+
+RUN sed -i 's|http://archive.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y build-essential gcc make python2 pkg-config flex bison \
+        libc6-dev zlib1g-dev libglib2.0-dev libpixman-1-dev
+RUN apt-get install -y wget
+RUN wget https://download.qemu.org/qemu-3.1.1.tar.xz -P / && tar -xvf /qemu-3.1.1.tar.xz -C /
+RUN cd /qemu-3.1.1 && ./configure --disable-xen --target-list=`uname -m`-softmmu --enable-guest-agent --prefix=/ --static --python=python2 && make qemu-ga -j64
+RUN cp /qemu-3.1.1/qemu-ga / && rm -rf /qemu-3.1.1*
+
+
+RUN rm -rf /var/lib/apt/lists
