@@ -1,0 +1,21 @@
+FROM alpine:3.18.0
+
+LABEL maintainer="Zexi Li <zexi.li@icloud.com>"
+
+RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
+
+RUN apk add alpine-sdk
+RUN apk add go=1.20.11-r0
+RUN apk add ceph-dev=17.2.7-r0
+RUN apk add linux-headers
+
+ENV GOPATH="/root/go"
+ENV PATH="${GOPATH}/bin:${PATH}"
+
+RUN set -x \
+	&& mkdir -p "$GOPATH" \
+	&& d="$GOPATH/src/golang.org/x/tools" \
+	&& mkdir -p "$d" \
+	&& git clone --branch yun --depth 4 https://github.com/yousong/tools "$d" \
+	&& cd "$d" \
+	&& go install ./cmd/goimports
