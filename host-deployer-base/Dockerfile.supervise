@@ -1,0 +1,15 @@
+FROM registry.cn-beijing.aliyuncs.com/yunionio/centos-build:1.1-4 as supervise_builder
+
+ADD ./supervise/daemontools-0.76.tar.gz /
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+RUN rm -f /etc/yum.repos.d/epel.repo /etc/yum.repos.d/ceph.repo
+
+RUN yum install -y glibc-static
+RUN cd /admin/daemontools-0.76/ && sed -i '1{s/$/ -include errno.h/}' src/conf-cc && sed -i '1{s/$/ -static/}' src/conf-ld && ./package/compile
+
+FROM registry.cn-beijing.aliyuncs.com/yunionio/centos-build:1.1-4
+
+RUN mkdir -p /admin/daemontools-0.76/command/
+COPY --from=supervise_builder /admin/daemontools-0.76/command/supervise /admin/daemontools-0.76/command/

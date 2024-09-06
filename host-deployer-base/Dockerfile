@@ -1,38 +1,8 @@
-FROM registry.cn-beijing.aliyuncs.com/yunionio/alpine-build:3.16.0-go-1.18.2-0 as telegraf_builder
-RUN git clone --branch=yn-release-1.19  https://github.com/yunionio/telegraf.git && \
-    cd telegraf && LDFLAGS='-extldflags "-static" -s' CGO_ENABLED=0 make && \
-    ARCH=`uname -m` && \
-    if [ "$ARCH" == "x86_64" ]; then \
-        GOOS=windows LDFLAGS='-extldflags "-static" -s' CGO_ENABLED=0 make; \
-    else \
-        touch /telegraf/telegraf.exe; \
-    fi
-
-FROM registry.cn-beijing.aliyuncs.com/yunionio/centos-build:1.1-4 as supervise_builder
-
-ADD ./supervise/daemontools-0.76.tar.gz /
-RUN cd /etc/yum.repos.d/
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-RUN rm -f /etc/yum.repos.d/epel.repo /etc/yum.repos.d/ceph.repo
-
-RUN yum install -y glibc-static
-RUN cd /admin/daemontools-0.76/ && sed -i '1{s/$/ -include errno.h/}' src/conf-cc && sed -i '1{s/$/ -static/}' src/conf-ld && ./package/compile
-
-FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v3.10.12-20240208.0-vm as yunionos
+FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v20240905.0 as telegraf_builder
+FROM registry.cn-beijing.aliyuncs.com/yunionio/supervise:v1.0 as supervise_builder
+FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v3.10.12-20240905.0-vm as yunionos
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:qga-v1.0 as qga
-FROM centos:8
-
-RUN cd /etc/yum.repos.d/
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-ADD etc/yum.repos.d/ceph.repo /etc/yum.repos.d/ceph.repo
-
-RUN dnf install -y epel-release && \
-         dnf install -y qemu-kvm qemu-kvm-block-rbd librbd1 genisoimage cloud-utils-growpart && \
-         dnf install -y ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gdisk && \
-         dnf clean all && \
-         rm -rf /var/cache/dnf
+FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v1.0
 
 ADD usr/bin/chntpw.static /usr/bin/chntpw.static
 ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin
@@ -58,4 +28,3 @@ RUN ARCH=`uname -m` && \
     if [ "$ARCH" == "x86_64" ]; then \
         curl --insecure -o /yunionos/x86_64/qemu-ga-x86_64.msi https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-qemu-ga/qemu-ga-win-107.0.1-1.el9/qemu-ga-x86_64.msi; \
     fi
-
