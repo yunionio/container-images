@@ -1,0 +1,12 @@
+FROM centos:8
+
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+ADD etc/yum.repos.d/ceph.repo /etc/yum.repos.d/ceph.repo
+
+RUN dnf install -y epel-release && \
+         dnf install -y qemu-kvm qemu-kvm-block-rbd librbd1 genisoimage cloud-utils-growpart && \
+         dnf install -y ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gdisk && \
+         dnf clean all && \
+         rm -rf /var/cache/dnf

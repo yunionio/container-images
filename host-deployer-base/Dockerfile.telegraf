@@ -1,0 +1,15 @@
+FROM registry.cn-beijing.aliyuncs.com/yunionio/alpine-build:3.16.0-go-1.18.2-0 as telegraf_builder
+RUN git clone --branch=yn-release-1.19  https://github.com/yunionio/telegraf.git && \
+    cd telegraf && LDFLAGS='-extldflags "-static" -s' CGO_ENABLED=0 make && \
+    ARCH=`uname -m` && \
+    if [ "$ARCH" == "x86_64" ]; then \
+        GOOS=windows LDFLAGS='-extldflags "-static" -s' CGO_ENABLED=0 make; \
+    else \
+        touch /telegraf/telegraf.exe; \
+    fi
+
+FROM registry.cn-beijing.aliyuncs.com/yunionio/alpine-build:3.16.0-go-1.18.2-0
+
+RUN mkdir /telegraf
+COPY --from=telegraf_builder /telegraf/telegraf /telegraf/
+COPY --from=telegraf_builder /telegraf/telegraf.exe /telegraf/
