@@ -34,6 +34,11 @@ build-3.19.0-go-1.21.10:
 	docker buildx build -f ./Dockerfile.3.19.0-go-1.21.10 --platform linux/arm64,linux/amd64 -t $(REPO):$(VERSION_3190_GO_12110) . --push
 	docker pull $(REPO):$(VERSION_3190_GO_12110)
 
+VERSION_3210_GO_12340=3.21.0-go-1.23.4-0
+build-3.21.0-go-1.23.4:
+	docker buildx build -f ./Dockerfile.3.21.0-go-1.23.4 --platform linux/arm64,linux/amd64,linux/loong64 -t $(REPO):$(VERSION_3210_GO_12340) . --push
+	docker pull $(REPO):$(VERSION_3210_GO_12340)
+
 push:
 	docker push $(img)
 
