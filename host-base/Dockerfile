@@ -17,7 +17,8 @@ RUN apk add \
 	iptables \
 	kmod \
 	pciutils \
-	util-linux
+	util-linux \
+	tzdata
 
 RUN find /var/cache/ -type f | xargs rm -vf
 
