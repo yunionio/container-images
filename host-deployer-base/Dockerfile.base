@@ -7,6 +7,8 @@ ADD etc/yum.repos.d/ceph.repo /etc/yum.repos.d/ceph.repo
 
 RUN dnf install -y epel-release && \
          dnf install -y qemu-kvm qemu-kvm-block-rbd librbd1 genisoimage cloud-utils-growpart && \
-         dnf install -y ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gdisk && \
-         dnf clean all && \
-         rm -rf /var/cache/dnf
+         dnf install -y ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gdisk
+
+RUN dnf install -y python3.9
+Run pip3 install --upgrade pip --no-cache-dir && pip3 install virt-firmware --no-cache-dir
+RUN dnf clean all && rm -rf /var/cache/dnf /usr/share/man /usr/share/doc
