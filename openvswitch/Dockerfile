@@ -4,6 +4,8 @@ MAINTAINER Yousong Zhou <zhouyousong@yunion.cn>
 
 RUN apk add alpine-sdk
 RUN apk add sudo
+RUN apk add iptables ip6tables
+RUN apk add iproute2
 
 RUN set -x \
 	&& adduser -D yunion \

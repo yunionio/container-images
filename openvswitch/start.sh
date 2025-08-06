@@ -16,10 +16,26 @@ log() {
 
 north() {
 	local cnt
+	local ipv6_mode=false
 
-	ovnctl start_northd \
+	# check is ipv6 cluster
+	if [ "$1" = "ipv6" ]; then
+		ipv6_mode=true
+		shift
+	fi
+
+	local start_cmd="ovnctl start_northd \
 		--db-nb-create-insecure-remote \
-		--db-sb-create-insecure-remote \
+		--db-sb-create-insecure-remote"
+
+	# ipv6 mode set ipv6 listen addr
+	if [ "$ipv6_mode" = true ]; then
+		start_cmd="$start_cmd \
+			--db-nb-addr=\"[::]\" \
+			--db-sb-addr=\"[::]\""
+	fi
+
+	eval "$start_cmd"
 
 	log ovn-northd &
 	log ovsdb-server-nb &
