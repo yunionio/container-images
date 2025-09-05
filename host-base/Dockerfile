@@ -18,7 +18,8 @@ RUN apk add \
 	kmod \
 	pciutils \
 	util-linux \
-	tzdata
+	tzdata \
+	xorriso
 
 RUN find /var/cache/ -type f | xargs rm -vf
 
