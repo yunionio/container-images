@@ -3,7 +3,7 @@ tag:=v0.7.0
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/host-base
 
 img:=$(REPO):$(tag)
-platform?=linux/amd64,linux/arm64
+platform?=linux/amd64,linux/arm64,linux/riscv64
 
 all: build
 

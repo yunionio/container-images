@@ -36,12 +36,12 @@ build-3.19.0-go-1.21.10:
 
 VERSION_3220_GO_12460=3.22.0-go-1.24.6-0
 build-3.22.0-go-1.24.6:
-	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6 --platform linux/arm64,linux/amd64 -t $(REPO):$(VERSION_3220_GO_12460) . --push
+	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6 --platform linux/arm64,linux/amd64,linux/riscv64 -t $(REPO):$(VERSION_3220_GO_12460) . --push
 	docker pull $(REPO):$(VERSION_3220_GO_12460)
 
 VERSION_3220_GO_12461=3.22.0-go-1.24.6-1
 build-3.22.0-go-1.24.6-1:
-	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6-1 --platform linux/arm64,linux/amd64 -t $(REPO):$(VERSION_3220_GO_12461) . --push
+	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6-1 --platform linux/arm64,linux/amd64,linux/riscv64 -t $(REPO):$(VERSION_3220_GO_12461) . --push
 	docker pull $(REPO):$(VERSION_3220_GO_12461)
 
 push:
