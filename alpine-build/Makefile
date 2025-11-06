@@ -3,6 +3,7 @@ REL:=5
 tag:=$(VER)-$(REL)
 
 REPO?=registry.cn-beijing.aliyuncs.com/yunionio/alpine-build
+platform?=linux/arm64,linux/amd64,linux/riscv64
 
 img:=$(REPO):$(tag)
 
@@ -36,13 +37,23 @@ build-3.19.0-go-1.21.10:
 
 VERSION_3220_GO_12460=3.22.0-go-1.24.6-0
 build-3.22.0-go-1.24.6:
-	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6 --platform linux/arm64,linux/amd64,linux/riscv64 -t $(REPO):$(VERSION_3220_GO_12460) . --push
+	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6 --platform $(platform) -t $(REPO):$(VERSION_3220_GO_12460) . --push
 	docker pull $(REPO):$(VERSION_3220_GO_12460)
 
 VERSION_3220_GO_12461=3.22.0-go-1.24.6-1
 build-3.22.0-go-1.24.6-1:
-	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6-1 --platform linux/arm64,linux/amd64,linux/riscv64 -t $(REPO):$(VERSION_3220_GO_12461) . --push
+	docker buildx build -f ./Dockerfile.3.22.0-go-1.24.6-1 --platform $(platform) -t $(REPO):$(VERSION_3220_GO_12461) . --push
 	docker pull $(REPO):$(VERSION_3220_GO_12461)
+
+VERSION_3222_GO_12490=3.22.2-go-1.24.9-0
+build-3.22.2-go-1.24.9:
+	docker buildx build -f ./Dockerfile.3.22.2-go-1.24.9 --platform $(platform) -t $(REPO):$(VERSION_3222_GO_12490) . --push
+	docker pull $(REPO):$(VERSION_3222_GO_12490)
+
+VERSION_3222_GO_12530=3.22.2-go-1.25.3-0
+build-3.22.2-go-1.25.3:
+	docker buildx build -f ./Dockerfile.3.22.2-go-1.25.3 --platform $(platform) -t $(REPO):$(VERSION_3222_GO_12530) . --push
+	docker pull $(REPO):$(VERSION_3222_GO_12530)
 
 push:
 	docker push $(img)

@@ -1,8 +1,8 @@
-FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v20240905.0 as telegraf_builder
-FROM registry.cn-beijing.aliyuncs.com/yunionio/supervise:v1.0 as supervise_builder
-FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v3.10.12-20250926.0-vm as yunionos
-FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:qga-v1.0 as qga
-FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v1.1
+FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v1.36-20251111.0 AS telegraf_builder
+FROM registry.cn-beijing.aliyuncs.com/yunionio/supervise:v2.0 AS supervise_builder
+FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v4.0.0-20251110.1-vm AS yunionos
+FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:qga-v4.0.0 AS qga
+FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v2.0
 
 ADD usr/bin/chntpw.static /usr/bin/chntpw.static
 ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin
@@ -16,13 +16,17 @@ COPY --from=supervise_builder /admin/daemontools-0.76/command/supervise /opt/yun
 
 RUN mkdir -p /yunionos/x86_64
 RUN mkdir -p /yunionos/aarch64
+RUN mkdir -p /yunionos/riscv64
 COPY --from=yunionos /yunionos/x86_64/initramfs /yunionos/x86_64/initramfs
 COPY --from=yunionos /yunionos/x86_64/kernel /yunionos/x86_64/kernel
 COPY --from=yunionos /yunionos/aarch64/kernel /yunionos/aarch64/kernel
 COPY --from=yunionos /yunionos/aarch64/initramfs /yunionos/aarch64/initramfs
+COPY --from=yunionos /yunionos/riscv64/kernel /yunionos/riscv64/kernel
+COPY --from=yunionos /yunionos/riscv64/initramfs /yunionos/riscv64/initramfs
 
 COPY --from=qga /qemu-ga /qemu-ga
 RUN mv /qemu-ga /yunionos/`uname -m`/qemu-ga
+RUN apk add curl util-linux-misc cdrkit chntpw
 
 RUN ARCH=`uname -m` && \
     if [ "$ARCH" == "x86_64" ]; then \

@@ -1,20 +1,20 @@
-TAG?=1.4.10
+TAG?=1.5.2
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 
 img:=$(REGISTRY)/host-deployer-base:$(TAG)
-platform?=linux/amd64,linux/arm64
+platform?=linux/amd64,linux/arm64,linux/riscv64
 
-qgaTag=qga-v1.0
+qgaTag=qga-v4.0.0
 qgaImg:=$(REGISTRY)/host-deployer-base:$(qgaTag)
 
-telegrafTAG=v20240905.0
+telegrafTAG=v1.36-20251111.0
 telegrafImg:=$(REGISTRY)/telegraf:$(telegrafTAG)
 
-superviseTag=v1.0
+superviseTag=v2.0
 superviseImg:=$(REGISTRY)/supervise:$(superviseTag)
 
-baseTag=base-v1.1
+baseTag=base-v2.0
 baseImg:=$(REGISTRY)/host-deployer-base:$(baseTag)
 
 

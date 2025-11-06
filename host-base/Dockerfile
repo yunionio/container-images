@@ -1,9 +1,11 @@
-FROM registry.cn-beijing.aliyuncs.com/yunionio/openvswitch:2.12.4-2
+FROM registry.cn-beijing.aliyuncs.com/yunionio/openvswitch:2.12.4-5
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
-MAINTAINER Yaoqi Wan <wanyaoqi@yunion.cn>
+LABEL maintainer="Yaoqi Wan <wanyaoqi@yunion.cn>"
+
+RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
 
 # coreutils: cp, uname
 # util-linux: mount

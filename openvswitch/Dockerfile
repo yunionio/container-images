@@ -1,6 +1,8 @@
 FROM alpine:3.20.6
 
-MAINTAINER Yousong Zhou <zhouyousong@yunion.cn>
+LABEL maintainer="Yousong Zhou <zhouyousong@yunion.cn>"
+
+RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
 
 RUN apk add alpine-sdk
 RUN apk add sudo
