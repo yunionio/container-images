@@ -1,14 +1,11 @@
-FROM centos:8
+FROM alpine:3.22.2
 
-RUN cd /etc/yum.repos.d/
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-ADD etc/yum.repos.d/ceph.repo /etc/yum.repos.d/ceph.repo
+ENV TZ="UTC"
 
-RUN dnf install -y epel-release && \
-         dnf install -y qemu-kvm qemu-kvm-block-rbd librbd1 genisoimage cloud-utils-growpart && \
-         dnf install -y ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gdisk
+RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
 
-RUN dnf install -y python3.9
-Run pip3 install --upgrade pip --no-cache-dir && pip3 install virt-firmware --no-cache-dir
-RUN dnf clean all && rm -rf /var/cache/dnf /usr/share/man /usr/share/doc
+RUN apk add qemu-system-`uname -m` qemu-block-rbd librbd cdrkit cloud-utils-growpart ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gptfdisk py3-pip py3-cryptography
+
+RUN apk add python3
+RUN pip3 install --upgrade pip --no-cache-dir --break-system-packages && pip3 install virt-firmware --break-system-packages --no-cache-dir
+RUN apk cache clean && rm -rf /var/cache/apk /usr/share/man /usr/share/doc
