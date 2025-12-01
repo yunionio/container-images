@@ -1,4 +1,4 @@
-TAG?=1.5.2
+TAG?=1.5.3
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 
