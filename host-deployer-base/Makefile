@@ -1,4 +1,4 @@
-TAG?=1.5.5
+TAG?=1.5.6
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 
@@ -8,7 +8,7 @@ platform?=linux/amd64,linux/arm64,linux/riscv64
 qgaTag=qga-v4.0.0
 qgaImg:=$(REGISTRY)/host-deployer-base:$(qgaTag)
 
-telegrafTAG=v1.36-20251111.0
+telegrafTAG=v1.36-20251217.0
 telegrafImg:=$(REGISTRY)/telegraf:$(telegrafTAG)
 
 superviseTag=v2.0
