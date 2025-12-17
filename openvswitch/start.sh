@@ -1,5 +1,9 @@
 #!/bin/sh
 
+ovsctl() {
+	/usr/share/openvswitch/scripts/ovs-ctl "$@"
+}
+
 ovnctl() {
 	/usr/share/openvswitch/scripts/ovn-ctl "$@"
 }
@@ -121,8 +125,59 @@ controller() {
 	done
 }
 
+ovsdb() {
+	while true; do
+		ovsctl status | tee | grep 'ovsdb-server' | grep 'is running' >/dev/null
+		if [ "$?" -ne 0 ]; then
+			break
+		fi
+		echo "wait for ovsdb-server is not running" >&2
+		sleep 1
+	done
+
+	ovsctl --no-ovs-vswitchd --no-monitor --system-id=random --db-file=/var/run/openvswitch/conf.db start
+
+	log ovsdb-server &
+
+	while true; do
+	    sleep 7
+		ovsctl status | tee | grep 'ovsdb-server' | grep 'is running' >/dev/null
+		if [ "$?" -ne 0 ]; then
+			echo "ovsdb-server is not running" >&2
+			return 1
+		fi
+	done
+}
+
+vswitchd() {
+    # wait /var/run/openvswitch/db.sock
+	while true; do
+		if [ -d /sys/module/openvswitch ] && [ -S /var/run/openvswitch/db.sock ]; then
+		    ovsctl status | tee | grep 'ovs-vswitchd' | grep 'is running' >/dev/null
+			if [ "$?" -ne 0 ]; then
+				break
+			fi
+		fi
+		echo "wait for openvswitch kernel module and ovsdb db.sock ready and ovs-vswitchd is not running" >&2
+		sleep 1
+	done
+
+	ovsctl --no-ovsdb-server --no-monitor --system-id=random start
+
+	log ovs-vswitchd &
+
+	while true; do
+	    sleep 7
+		ovsctl status | tee | grep 'ovs-vswitchd' | grep 'is running' >/dev/null
+		if [ "$?" -ne 0 ]; then
+			echo "ovs-vswitchd is not running" >&2
+			return 1
+		fi
+	done
+}
+
 if [ "$#" = 0 ]; then
-	echo "usage: $0 [north|controller]" >&2
+	echo "usage: $0 [north|controller|ovsdb|vswitchd]" >&2
 	exit 1
 fi
 

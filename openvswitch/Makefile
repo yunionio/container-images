@@ -1,10 +1,10 @@
-VER:=3.22.2
-REL:=1
+VER:=2.12.4
+REL:=20251218
 tag:=$(VER)-$(REL)
 
-REPO?=registry.cn-beijing.aliyuncs.com/yunionio/openvswitch
+REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
-img:=$(REPO):$(tag)
+img:=$(REGISTRY)/openvswitch:$(tag)
 platform?=linux/amd64,linux/arm64,linux/riscv64
 
 all: build
@@ -14,3 +14,4 @@ build:
 
 push:
 	docker buildx build --platform $(platform) -t $(img) . --push
+	echo $(img)

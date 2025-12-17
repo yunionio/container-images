@@ -18,7 +18,7 @@ subpackages="$pkgname-doc $pkgname-dbg $pkgname-dev
 	$pkgname-ovn:_ovn
 	$pkgname-openrc
 	"
-source="http://openvswitch.org/releases/openvswitch-$pkgver.tar.gz
+source="openvswitch-$pkgver.tar.gz
 	ovsdb-server.initd
 	ovsdb-server.confd
 	ovs-vswitchd.initd
