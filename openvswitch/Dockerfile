@@ -1,13 +1,11 @@
-FROM alpine:3.20.6
+#FROM alpine:3.20.6
+FROM registry.cn-beijing.aliyuncs.com/yunionio/openvswitch:2.12.4-alphine
 
 LABEL maintainer="Yousong Zhou <zhouyousong@yunion.cn>"
 
 RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
 
-RUN apk add alpine-sdk
-RUN apk add sudo
-RUN apk add iptables ip6tables
-RUN apk add iproute2
+RUN apk add alpine-sdk sudo iptables ip6tables iproute2 uuidgen
 
 RUN set -x \
 	&& adduser -D yunion \
