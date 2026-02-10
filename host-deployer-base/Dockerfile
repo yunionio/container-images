@@ -2,7 +2,7 @@ FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v1.36-20251217.0 AS tele
 FROM registry.cn-beijing.aliyuncs.com/yunionio/supervise:v2.0 AS supervise_builder
 FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v4.0.0-20251203.0-vm AS yunionos
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:qga-v4.0.0 AS qga
-FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v2.0
+FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v2.1
 
 ADD usr/bin/chntpw.static /usr/bin/chntpw.static
 ADD usr/bin/.chntpw.static.bin /usr/bin/.chntpw.static.bin

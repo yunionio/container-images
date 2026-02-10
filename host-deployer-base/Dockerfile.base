@@ -4,7 +4,7 @@ ENV TZ="UTC"
 
 RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
 
-RUN apk add qemu-system-`uname -m` qemu-block-rbd librbd cdrkit cloud-utils-growpart ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs dosfstools parted gptfdisk py3-pip py3-cryptography
+RUN apk add qemu-system-`uname -m` qemu-block-rbd librbd cdrkit cloud-utils-growpart ntfs-3g lvm2 zerofree lsof xfsprogs e2fsprogs e2fsprogs-extra dosfstools parted gptfdisk py3-pip py3-cryptography
 
 RUN apk add python3
 RUN pip3 install --upgrade pip --no-cache-dir --break-system-packages && pip3 install virt-firmware --break-system-packages --no-cache-dir
