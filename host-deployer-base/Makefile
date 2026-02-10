@@ -1,4 +1,4 @@
-TAG?=1.5.6
+TAG?=1.5.7
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 
@@ -14,7 +14,7 @@ telegrafImg:=$(REGISTRY)/telegraf:$(telegrafTAG)
 superviseTag=v2.0
 superviseImg:=$(REGISTRY)/supervise:$(superviseTag)
 
-baseTag=base-v2.0
+baseTag=base-v2.1
 baseImg:=$(REGISTRY)/host-deployer-base:$(baseTag)
 
 
