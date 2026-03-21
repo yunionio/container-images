@@ -1,5 +1,5 @@
 REGISTRY ?= "registry.cn-beijing.aliyuncs.com/yunionio"
-VERSION ?= "v4.0.0-20251112.0"
+VERSION ?= "v4.0.0-20260318.0"
 platform ?= linux/amd64,linux/arm64,linux/riscv64
 
 build:
