@@ -8,6 +8,16 @@ ovnctl() {
 	/usr/share/openvswitch/scripts/ovn-ctl "$@"
 }
 
+# True when the Open vSwitch kernel datapath is usable: either the loadable
+# module is loaded (/sys/module/openvswitch) or OVS is built into the kernel
+# (no sysfs entry on some kernels; ovs-dpctl probes via netlink).
+ovs_kernel_ready() {
+	if [ -d /sys/module/openvswitch ]; then
+		return 0
+	fi
+	ovs-dpctl show >/dev/null 2>&1
+}
+
 log() {
 	local n="$1"
 	local f="/var/log/openvswitch/$1.log"
@@ -150,15 +160,15 @@ ovsdb() {
 }
 
 vswitchd() {
-    # wait /var/run/openvswitch/db.sock
+	# wait for kernel datapath (module or built-in), db.sock, and ovs-vswitchd not running
 	while true; do
-		if [ -d /sys/module/openvswitch ] && [ -S /var/run/openvswitch/db.sock ]; then
-		    ovsctl status | tee | grep 'ovs-vswitchd' | grep 'is running' >/dev/null
+		if ovs_kernel_ready && [ -S /var/run/openvswitch/db.sock ]; then
+			ovsctl status | tee | grep 'ovs-vswitchd' | grep 'is running' >/dev/null
 			if [ "$?" -ne 0 ]; then
 				break
 			fi
 		fi
-		echo "wait for openvswitch kernel module and ovsdb db.sock ready and ovs-vswitchd is not running" >&2
+		echo "wait for openvswitch kernel datapath and ovsdb db.sock ready and ovs-vswitchd is not running" >&2
 		sleep 1
 	done
 
