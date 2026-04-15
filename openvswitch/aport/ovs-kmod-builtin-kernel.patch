@@ -1,0 +1,32 @@
+--- a/utilities/ovs-kmod-ctl.in
++++ b/utilities/ovs-kmod-ctl.in
+@@ -29,7 +29,17 @@
+ 
+ insert_mods () {
+     # Try loading openvswitch kernel module.
+-    action "Inserting openvswitch module" modprobe openvswitch
++    # CONFIG_OPENVSWITCH=y: no .ko under /lib/modules, modprobe fails, but
++    # the datapath may still be present (see /sys/module/openvswitch or ovs-dpctl).
++    test -e /sys/module/openvswitch && return 0
++    if action "Inserting openvswitch module" modprobe openvswitch; then
++        return 0
++    fi
++    test -e /sys/module/openvswitch && return 0
++    if command -v ovs-dpctl >/dev/null 2>&1 && ovs-dpctl show >/dev/null 2>&1; then
++        return 0
++    fi
++    return 1
+ }
+ 
+ insert_kmods_if_required() {
+@@ -42,6 +52,10 @@
+ 
+     # If openvswitch is already loaded then we're done.
+     test -e /sys/module/openvswitch && return 0
++    # Some builtin kernels omit /sys/module/openvswitch; datapath still works.
++    if command -v ovs-dpctl >/dev/null 2>&1 && ovs-dpctl show >/dev/null 2>&1; then
++        return 0
++    fi
+ 
+     # Load openvswitch.  If that's successful then we're done.
+     insert_mods && return 0

@@ -1,5 +1,5 @@
 VER:=2.12.4
-REL:=20251218
+REL:=20260415
 tag:=$(VER)-$(REL)
 
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio

@@ -2,16 +2,32 @@
 
 MODULES="openvswitch"
 
+# Kernel datapath is ready: sysfs (loadable or most builtins), or netlink works
+# but some builtin kernels omit /sys/module/openvswitch.
+ovs_datapath_ready() {
+	[ -e /sys/module/openvswitch ] && return 0
+	command -v ovs-dpctl >/dev/null 2>&1 || return 1
+	ovs-dpctl show >/dev/null 2>&1
+}
+
 depend() {
 	before ovsdb-server
 }
 
 start() {
 	ebegin "Loading Openvswitch kernel modules"
+	if ovs_datapath_ready; then
+		eend 0
+		return 0
+	fi
 	for mod in $MODULES; do
 		modprobe -q $mod
 	done
-	eend $?
+	if ovs_datapath_ready; then
+		eend 0
+	else
+		eend 1
+	fi
 }
 
 stop() {

@@ -2,7 +2,7 @@
 # Maintainer: Yousong Zhou <zhouyousong@yunion.cn>
 pkgname=openvswitch
 pkgver=2.12.4
-pkgrel=1
+pkgrel=2
 pkgdesc="A production quality, multilayer virtual switch"
 url="http://openvswitch.org/"
 arch="all"
@@ -25,6 +25,7 @@ source="openvswitch-$pkgver.tar.gz
 	ovs-vswitchd.confd
 	ovs-modules.initd
 	set-max-ct-zones-59999.patch
+	ovs-kmod-builtin-kernel.patch
 	ifupdown-alpine.patch
 	rely-on-unique-name-for-ovn-qos-meters-2-12.patch
 	"
@@ -142,7 +143,8 @@ sha512sums="c856d1b6162615244f506b7676455d3dc5eb197723e36cea7836093a5edc8e5effc9
 b1588d076bbfc7ef2dd46fce8e46186f40cbbc4667697f7ac13ddc68e34568fdab315fde47838de7f6d32916853190336cfe3735f672ad7cb624ae14dbff55a5  ovsdb-server.confd
 4bff37f8bed32d5327b4b0433984ab8ffdce77f618034aa6ffd1ad4a7caa00703ea2bef312876dce5aafa4c17fe06dddd75e5c05c10e13bf8f5c3805a0654a96  ovs-vswitchd.initd
 346aea099f51707d2b4fc9fdc8c1502582723fb4e00c4d5d1624b0378c94dfb76674fa95e2af894f36169df52109dbe441ee6a45aa744584d9e4c74d15a46c1d  ovs-vswitchd.confd
-1e08aa5ac6ce55b97256478b9243c8a4c92a42a97fc70ea0439c832b12a775af28a127224ae6c4ce01642dde65f76c610a44105912338bf443d8ea390c2d9ccf  ovs-modules.initd
+a75ff9d4ba7d2599c08e15293ccda7759c5088bdf165b52158b6f0a4906422183e34dd9ca2b6f303a8fdf9636eae8d51a8c71fd5da66fd12855a59ced96d6a1c  ovs-modules.initd
 b91a5d188e1128fee57fb67b8cb31afc48c22048a8d4c7214ece78797dc09a6fdd0ab7aae31cd352792590b6f06efa78e63b78f3b417c63e601fd98b44e5bee9  set-max-ct-zones-59999.patch
+073a39db82778752a43097ffb6891b89da7e572a6955c63e41fb9c0bb98154d192b37940d650cd55bc71af2dfae7edd22571b7a7b95ec43fd6a84574ddac811b  ovs-kmod-builtin-kernel.patch
 eca5b19954e6df7dc17c582e22e4b27533710d077039a54a2ba291ae7d3a2706872f5bcad8795ca58e06ca7e45a9b8c4c51e99aedbabd0e87623972ebcdca230  ifupdown-alpine.patch
 f9555b2d9df75af5185328fece1598ff6ecb47d20ec7ba289285b047c0c441a624dea1ecda00963af1918dc2d684b2ab5e6479e63c509e7fec05b7108245c8e7  rely-on-unique-name-for-ovn-qos-meters-2-12.patch"
