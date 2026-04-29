@@ -1,0 +1,24 @@
+FROM alpine:3.22.2
+
+ENV TZ="UTC"
+
+RUN sed -i 's!https://dl-cdn.alpinelinux.org/!https://mirrors.ustc.edu.cn/!g' /etc/apk/repositories
+
+ENV NBDKIT_VERSION="1.46.2"
+
+RUN apk add glib libffi libtirpc libxml2 pcre2 zlib libssh
+
+RUN apk add --virtual .nbdkit-build-deps build-base autoconf automake libtool pkgconf glib-dev libffi-dev libtirpc-dev libxml2-dev pcre2-dev zlib-dev libssh-dev linux-headers bash perl perl-dev wget
+
+RUN wget -O /tmp/nbdkit.tar.gz "https://download.libguestfs.org/nbdkit/1.46-stable/nbdkit-1.46.2.tar.gz"
+
+RUN tar -xzf /tmp/nbdkit.tar.gz -C /tmp && \
+    cd /tmp/nbdkit-${NBDKIT_VERSION} && \
+    autoreconf -is && \
+    ./configure --prefix=/usr && \
+    make -j"$(nproc)" && \
+    make install && \
+    rm -rf /tmp/nbdkit* && \
+    apk del .nbdkit-build-deps
+
+RUN apk cache clean && rm -rf /var/cache/apk /usr/share/man /usr/share/doc

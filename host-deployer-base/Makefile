@@ -1,4 +1,4 @@
-TAG?=1.5.9
+TAG?=1.5.11
 REGISTRY?=registry.cn-beijing.aliyuncs.com/yunionio
 
 
@@ -17,6 +17,8 @@ superviseImg:=$(REGISTRY)/supervise:$(superviseTag)
 baseTag=base-v2.2
 baseImg:=$(REGISTRY)/host-deployer-base:$(baseTag)
 
+nbdkitTag=nbdkit-v1.46.2-0
+nbdkitImg:=$(REGISTRY)/host-deployer-base:$(nbdkitTag)
 
 docker_args ?=
 
@@ -33,6 +35,9 @@ supervise-build:
 
 base-of-base:
 	docker buildx build $(docker_args) --platform $(platform) -t $(baseImg) -f ./Dockerfile.base . --push
+
+nbdkit-build:
+	docker buildx build $(docker_args) --platform $(platform) -t $(nbdkitImg) -f ./Dockerfile.nbdkit . --push
 
 build:
 	docker buildx build $(docker_args) --platform $(platform) -t $(img) .

@@ -2,6 +2,7 @@ FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v1.36-20260227.0 AS tele
 FROM registry.cn-beijing.aliyuncs.com/yunionio/supervise:v2.0 AS supervise_builder
 FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v4.0.0-20251203.0-vm AS yunionos
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:qga-v4.0.0 AS qga
+FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:nbdkit-v1.46.2-0 AS nbdkit
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v2.2
 
 ADD usr/bin/chntpw.static /usr/bin/chntpw.static
@@ -26,7 +27,10 @@ COPY --from=yunionos /yunionos/riscv64/initramfs /yunionos/riscv64/initramfs
 
 COPY --from=qga /qemu-ga /qemu-ga
 RUN mv /qemu-ga /yunionos/`uname -m`/qemu-ga
-RUN apk add curl util-linux-misc cdrkit chntpw
+RUN apk add curl util-linux-misc cdrkit chntpw libssh
+
+COPY --from=nbdkit /usr/sbin/nbdkit /usr/sbin/nbdkit
+COPY --from=nbdkit /usr/lib/nbdkit /usr/lib/nbdkit
 
 RUN ARCH=`uname -m` && \
     if [ "$ARCH" == "x86_64" ]; then \
