@@ -55,6 +55,11 @@ build-3.22.2-go-1.25.3:
 	docker buildx build -f ./Dockerfile.3.22.2-go-1.25.3 --platform $(platform) -t $(REPO):$(VERSION_3222_GO_12530) . --push
 	docker pull $(REPO):$(VERSION_3222_GO_12530)
 
+VERSION_323_GO_12630=3.23-go-1.26.3-0
+build-3.23-go-1.26.3:
+	docker buildx build -f ./Dockerfile.3.23-go-1.26.3 --platform $(platform) -t $(REPO):$(VERSION_323_GO_12630) . --push
+	docker pull $(REPO):$(VERSION_323_GO_12630)
+
 push:
 	docker push $(img)
 
