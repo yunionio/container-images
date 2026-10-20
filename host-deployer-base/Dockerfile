@@ -1,6 +1,6 @@
-FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v1.36-20260227.0 AS telegraf_builder
+FROM registry.cn-beijing.aliyuncs.com/yunionio/telegraf:v1.36-20261013.0 AS telegraf_builder
 FROM registry.cn-beijing.aliyuncs.com/yunionio/supervise:v2.0 AS supervise_builder
-FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v4.0.0-20251203.0-vm AS yunionos
+FROM registry.cn-beijing.aliyuncs.com/yunionio/yunionos:v4.1.0-20261020.0-vm AS yunionos
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:qga-v4.0.0 AS qga
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:nbdkit-v1.46.2-0 AS nbdkit
 FROM registry.cn-beijing.aliyuncs.com/yunionio/host-deployer-base:base-v2.2
